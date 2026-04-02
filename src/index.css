@@ -2,6 +2,9 @@
 body { background: #E8E6E0; font-family: 'DM Sans', sans-serif; overflow: hidden; }
 ::-webkit-scrollbar { display: none; }
 * { scrollbar-width: none; -ms-overflow-style: none; }
+@media (max-width: 480px) {
+  .mock-status-bar { display: none !important; }
+}
 @keyframes spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
