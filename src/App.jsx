@@ -94,34 +94,11 @@ export default function App() {
         }
       `}</style>
       <div className="app-wrapper">
-        {/* Dev screen switcher — remove in production */}
-        <div className="screen-switcher" style={{ display:'flex', gap:6, flexWrap:'wrap', justifyContent:'center' }}>
-          {[
-            {id:'planHome',label:'Plan'},
-            {id:'createEvent',label:'+ Plan'},
-            {id:'eventDetail',label:'Event'},
-            {id:'library',label:'Library'},
-            {id:'shootCamera',label:'📷 Shoot'},
-            {id:'afterReflect',label:'Reflect'},
-            {id:'profile',label:'Profile'},
-          ].map(s => (
-            <button key={s.id} onClick={() => setScreen(s.id)}
-              style={{ padding:'5px 12px', borderRadius:20, fontSize:12, fontWeight:500,
-                background: screen===s.id ? C.dark : 'rgba(255,255,255,0.6)',
-                color: screen===s.id ? C.white : C.gray600,
-                border: `1px solid ${screen===s.id ? C.dark : 'rgba(0,0,0,0.1)'}`,
-                cursor:'pointer', fontFamily:'inherit' }}>
-              {s.label}
-            </button>
-          ))}
-        </div>
-
         {/* Phone shell */}
         <div className="phone-shell">
           {screens[screen]}
         </div>
 
-        <p className="hint-text">Tap buttons above to switch screens</p>
       </div>
     </>
   );

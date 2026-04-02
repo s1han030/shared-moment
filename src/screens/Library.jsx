@@ -17,6 +17,7 @@ export const Library = ({ onBack, onNav, onShootWithRef, uploadedRefs, setUpload
   const [analysing, setAnalysing] = useState(false);
   const [poseData, setPoseData] = useState(null);
   const [selectedForView, setSelectedForView] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState(null);
 
   const baseRefs = [
     {color:"#F0C27F",label:"Golden hour portrait",cat:"Portraits",src:null,poses:null},
@@ -145,7 +146,7 @@ export const Library = ({ onBack, onNav, onShootWithRef, uploadedRefs, setUpload
             {plans.map(function(plan){
               return (
                 <div key={plan.id} style={{ flexShrink:0,width:140,borderRadius:16,background:plan.color,padding:"12px 12px 10px",cursor:"pointer" }}
-                  onClick={function(){ onNav("plan"); }}>
+                  onClick={function(){ setSelectedPlan(plan); setShowUploadSheet(true); }}>
                   <p style={{ fontSize:12,fontWeight:700,color:C.dark,margin:"0 0 2px" }}>{plan.name}</p>
                   <p style={{ fontSize:10,color:"rgba(0,0,0,0.45)",margin:"0 0 8px" }}>{plan.date||"No date"}</p>
                   <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center" }}>
@@ -211,10 +212,6 @@ export const Library = ({ onBack, onNav, onShootWithRef, uploadedRefs, setUpload
                         <Ic n="image" size={22} color="rgba(255,255,255,0.5)"/>
                       </div>
                   }
-                  {/* Label overlay */}
-                  <div style={{ position:"absolute",bottom:0,left:0,right:0,background:"linear-gradient(transparent,rgba(0,0,0,0.55))",padding:"20px 10px 8px" }}>
-                    <p style={{ fontSize:10,fontWeight:600,color:C.white,margin:0 }}>{item.label}</p>
-                  </div>
                   {/* AI badge */}
                   {item.poses && item.poses.people && item.poses.people.length>0 && (
                     <div style={{ position:"absolute",top:6,right:6,background:C.yellow,borderRadius:6,width:18,height:18,display:"flex",alignItems:"center",justifyContent:"center" }}>
@@ -231,10 +228,16 @@ export const Library = ({ onBack, onNav, onShootWithRef, uploadedRefs, setUpload
       {/* Upload bottom sheet */}
       {showUploadSheet && (
         <div style={{ position:"absolute",inset:0,background:"rgba(0,0,0,0.5)",zIndex:100,display:"flex",alignItems:"flex-end" }}
-          onClick={function(e){if(e.target===e.currentTarget)setShowUploadSheet(false);}}>
+          onClick={function(e){if(e.target===e.currentTarget){setShowUploadSheet(false);setSelectedPlan(null);}}}>
           <div style={{ width:"100%",background:C.white,borderRadius:"24px 24px 0 0",padding:"20px 20px 40px",maxHeight:"90%",overflowY:"auto" }}>
             <div style={{ width:36,height:4,background:C.gray200,borderRadius:2,margin:"0 auto 20px" }}/>
-            <p style={{ fontSize:17,fontWeight:700,color:C.dark,margin:"0 0 16px" }}>Add Reference</p>
+            {selectedPlan
+              ? <div style={{ marginBottom:16 }}>
+                  <p style={{ fontSize:13,color:C.gray400,margin:"0 0 2px" }}>Adding to</p>
+                  <p style={{ fontSize:17,fontWeight:700,color:C.dark,margin:0 }}>{selectedPlan.name}</p>
+                </div>
+              : <p style={{ fontSize:17,fontWeight:700,color:C.dark,margin:"0 0 16px" }}>Add Reference</p>
+            }
             {!previewSrc ? (
               <label style={{ display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:160,borderRadius:16,border:"2px dashed "+C.gray200,background:C.gray50,cursor:"pointer",gap:8 }}>
                 <Ic n="plus" size={28} color={C.gray400}/>
